@@ -30,11 +30,11 @@ class FileController {
   static async getFileById(req: Request, res: Response): Promise<void> {
     try {
         const fileService = new FileService();
-      const file_id = parseInt(req.params.file_id, 10);
+        const file_id = parseInt(req.params.file_id, 10);
+      
+      const file = await fileService.getFileById(file_id);
 
-      const user = await fileService.getFileById(file_id);
-
-      res.status(200).json(user);
+      res.status(200).json(file);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
@@ -69,7 +69,7 @@ class FileController {
       }
 
       await fileService.deleteFile(file_id, token);
-      res.status(204).json({ message: "Usuário deletado com sucesso" });
+      res.status(204).json({ message: "Arquivo deletado com sucesso" });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });

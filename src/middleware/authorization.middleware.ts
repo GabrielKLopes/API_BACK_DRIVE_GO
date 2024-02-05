@@ -39,11 +39,12 @@ export async function authorizationMiddleware(req: CustomRequest, res: Response,
       return res.status(403).send({ message: "Permission denied" });
     }
 
-    
     if (req.url.includes('/file') && req.method !== 'GET' && user.permissionsFile.permissionFile_id === 3) {
-          return res.status(403).send({ message: "Permission denied for file operations" });
+      return res.status(403).send({ message: "Permission denied for file operations" });
+    } else if (req.url.includes('/folder') && req.method !== 'GET' && user.permissionsFile.permissionFile_id === 3) {
+      return res.status(403).send({ message: "Permission denied for folder operations" });
     } else {
-    
+
       if (req.url.includes('/user') && req.method === 'DELETE' && user.permission.permission_id !== 1) {
         return res.status(403).send({ message: "Permission denied for deletion" });
       }
@@ -54,6 +55,9 @@ export async function authorizationMiddleware(req: CustomRequest, res: Response,
     }
 
     req.user_id = user.user_id;
+
+    console.log('user_id no middleware:', req.user_id);
+
     next();
   } catch (error) {
     return res.status(401).send({ message: "Access denied" });
