@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { File } from "./File.entity";
 
+
 @Entity('fileTypes')
 export class FileType {
     @PrimaryGeneratedColumn()
@@ -10,7 +11,7 @@ export class FileType {
     name: string;
 
     @Column()
-    description: string;
+    description: string; 
 
     @OneToMany(() => File, file => file.fileType)
     files: File[]; 

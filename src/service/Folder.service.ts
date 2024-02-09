@@ -2,10 +2,12 @@ import * as jwt from "jsonwebtoken";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/User.entity";
 import { Folder } from "../entities/Folder.entity";
+import { SharedFolder } from "../entities/Shared.entity";
 
 class FolderService {
   private userRepository = AppDataSource.getRepository(User);
   private folderRepository = AppDataSource.getRepository(Folder);
+  private sharedRepository = AppDataSource.getRepository(SharedFolder)
 
   async createFolder(
     foldername: string,
@@ -99,6 +101,10 @@ async updateFolder(folder_id: number, foldername:string,  user_id: number): Prom
     return updateFolder;
 }
 
+
+
 }
+
+
 export default FolderService;
 

@@ -19,18 +19,19 @@ export class File{
     @Column()
     size: number;
 
-    @ManyToOne(()=> User, user => user.user_id)
-    @JoinColumn({name: 'user_id'})
-    user: User;
-
     @ManyToOne(() => FileType, fileType => fileType.fileType_id)
     @JoinColumn({name: 'fileType_id'})
     fileType: FileType;
+    
+    @ManyToOne(()=> User, user => user.user_id)
+    @JoinColumn({name: 'user_id'})
+    user: User;
 
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
 
     @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     updated_at: Date;
+  
 
 }

@@ -53,6 +53,7 @@ export async function authorizationMiddleware(req: CustomRequest, res: Response,
         return res.status(403).send({ message: "Permission denied for update" });
       }
     }
+    const permissionFileId = user.permissionsFile.permissionFile_id;
 
     req.user_id = user.user_id;
 

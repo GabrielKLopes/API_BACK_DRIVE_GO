@@ -47,7 +47,7 @@ class FileService {
         path,
         size,
         user,
-        fileType,
+
       });
 
       const savedFile = await fileRepository.save(file);
@@ -117,13 +117,6 @@ async updateFile(file_id: number, filename: string, path: string, user_id: numbe
         updateFile.user = userId;
     }
 
-    if (fileType_id !== undefined) {
-        const fileTypeId = await fileTypeRepository.findOne({ where: { fileType_id } });
-        if (!fileTypeId) {
-            throw new Error('Permissão de arquivo não encontrada');
-        }
-        updateFile.fileType = fileTypeId;
-    }
 
     await fileRepository.save(updateFile);
 

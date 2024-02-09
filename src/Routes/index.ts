@@ -4,7 +4,11 @@ import { authorizationMiddleware } from "../middleware/authorization.middleware"
 import FileController from "../controller/File.controller";
 import FolderController from "../controller/Folder.controller";
 
+import SharedFolderController from "../controller/Shared.controller";
+
+
 export const routes = Router();
+
 
 
 routes.post('/register/user', UserController.createUser);
@@ -25,3 +29,7 @@ routes.get('/session/folder/', authorizationMiddleware, FolderController.getAllF
 routes.get('/session/folder/:folder_id',authorizationMiddleware, FolderController.getFolderById);
 routes.delete('/session/folder/:folder_id', authorizationMiddleware, FolderController.deleteFolder);
 routes.put('/session/folder/:folder_id',authorizationMiddleware, FolderController.updateFolder);
+
+routes.post('/session/shared-folder/:folder_id', authorizationMiddleware, SharedFolderController.createSharedFolder);
+routes.get('/session/shared-folder/:user_id', authorizationMiddleware, SharedFolderController.getAllSharedFolders);
+

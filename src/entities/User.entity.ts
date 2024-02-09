@@ -3,6 +3,7 @@ import { PermissionsFile } from "./PermissionFile.entity";
 import { Permission } from "./Permission.entity";
 import { File } from "./File.entity";
 import { Folder } from "./Folder.entity";
+import { SharedFolder } from "./Shared.entity"; // Importe a entidade SharedFolder
 
 
 
@@ -34,6 +35,9 @@ export class User {
     @OneToMany(() => Folder, folder => folder.user)
     folder: Folder[];
 
+    @OneToMany(() => SharedFolder, sharedFolder => sharedFolder.user) 
+    sharedFolders: SharedFolder[]; 
+    
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
 
