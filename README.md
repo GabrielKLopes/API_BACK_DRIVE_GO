@@ -38,5 +38,7 @@ Se você tiver algum feedback, por favor nos deixe saber por meio de fake@fake.c
   npm i
   npm run migration:run(observação se der erro, rode uma migration por vez)
   npm run start-dev
+
+  observação olhe o .env antes de iniciar o banco
 ```
     
