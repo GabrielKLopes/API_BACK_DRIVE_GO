@@ -10,7 +10,7 @@ export class Folder{
     folder_id: number;
 
     @Column()
-    name: string;
+    foldername: string;
 
   
     @ManyToOne(() => User, user => user.user_id)

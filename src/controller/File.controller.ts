@@ -59,7 +59,7 @@ class FileController {
   static async deleteFile(req: Request, res: Response): Promise<void> {
     try {
       const fileService = new FileService();
-      const file_id = parseInt(req.params.user_id, 10);
+      const file_id = parseInt(req.params.file_id, 10);
 
       const token = req.headers.authorization?.split(" ")[1];
 

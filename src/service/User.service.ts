@@ -99,10 +99,10 @@ export class UserService {
         const permissionRepository = AppDataSource.getRepository(Permission);
         const permissionsFileRepository = AppDataSource.getRepository(PermissionsFile);
     
-        // Verifica se o e-mail já existe
+       
         const existingUserWithEmail = await userRepository.findOne({ where: { email } });
         if (existingUserWithEmail && existingUserWithEmail.user_id !== user_id) {
-            throw new Error('E-mail já cadastrador');
+            throw new Error('E-mail já cadastrado');
         }
     
         const updateUser = await userRepository.findOne({ where: { user_id }, relations: ['permission', 'permissionsFile'] });
@@ -115,11 +115,10 @@ export class UserService {
         updateUser.email = email !== undefined ? email : updateUser.email;
     
        
-        if (password !== undefined) {
-            
-            const hashedPassword = await bcrypt.hash(password, 10);
-            updateUser.password = hashedPassword;
-        }
+      if (password !== undefined && password !== '') {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    updateUser.password = hashedPassword;
+}
     
         if (permission_id !== undefined) {
             const permission = await permissionRepository.findOne({ where: { permission_id } });
@@ -145,20 +144,31 @@ export class UserService {
    
     async authorization(email: string, password: string) {
         try {
-            const user = await this.userRepository.findOne({ where: { email } });
-
+            const user = await this.userRepository.findOne({ 
+                where: { email },
+                relations: ['permission', 'permissionsFile'] // Carregar relacionamentos
+            });
+    
             if (!user) {
                 throw new Error('Usuário não encontrado');
             }
-
+    
             const passwordMatch = await bcrypt.compare(password, user.password);
-
+    
             if (passwordMatch) {
-                return jwt.sign({ email: user.email }, this.secretJWT, {
+                const payload = {
+                    email: user.email,
+                    user_id: user.user_id,
+                    username: user.username,
+                    permission: user.permission,
+                    permissionsFile: user.permissionsFile
+                };
+    
+                return jwt.sign(payload, this.secretJWT, {
                     expiresIn: '1h'
                 });
             }
-            throw new Error('Uusário ou senha incorreto');
+            throw new Error('Usuário ou senha incorreto');
         } catch (error) {
             throw error;
         }

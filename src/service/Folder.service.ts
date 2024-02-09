@@ -8,7 +8,7 @@ class FolderService {
   private folderRepository = AppDataSource.getRepository(Folder);
 
   async createFolder(
-   name: string,
+    foldername: string,
     user_id: number,
   
   ): Promise<Folder> {
@@ -31,7 +31,7 @@ class FolderService {
 
       const folderRepository = AppDataSource.getRepository(Folder);
       const folder = folderRepository.create({
-        name,
+        foldername,
         user
       });
 
@@ -74,7 +74,7 @@ class FolderService {
     await this.folderRepository.delete(folder_id);
 }
 
-async updateFolder(folder_id: number, name:string,  user_id: number): Promise<Folder | null> {
+async updateFolder(folder_id: number, foldername:string,  user_id: number): Promise<Folder | null> {
     const userRepository = AppDataSource.getRepository(User);
     
     const updateFolder = await this.folderRepository.findOne({where:{folder_id}, relations:['user']});
@@ -83,7 +83,7 @@ async updateFolder(folder_id: number, name:string,  user_id: number): Promise<Fo
         throw new Error('Arquivo não encontrado');
     }
 
-    updateFolder.name = name !== undefined ? name : updateFolder.name;
+    updateFolder.foldername = foldername !== undefined ? foldername : updateFolder.foldername;
 
     if (user_id !== undefined) {
         const userId = await userRepository.findOne({ where: { user_id } });
